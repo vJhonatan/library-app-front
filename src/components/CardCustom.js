@@ -1,7 +1,9 @@
-import { StyleSheet } from "react-native"
-import { Text, TouchableOpacity, View } from "react-native-web"
+import { StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native-web";
 
 export function CardCustom({ title, author, releaseYear, quantity, onPressBtn, nameBtn }) {
+    const isDisabled = quantity === 0; 
+
     return (
         <View style={styles.card}>
             <Text style={styles.cardTitle}>{title}</Text>
@@ -9,54 +11,72 @@ export function CardCustom({ title, author, releaseYear, quantity, onPressBtn, n
             <Text style={styles.cardYear}>Ano de Lançamento: {releaseYear}</Text>
             <Text style={styles.cardQuantity}>Quantidade Disponível: {quantity}</Text>
 
-            <TouchableOpacity style={styles.button} onPress={() => onPressBtn}>
-                <Text style={styles.buttonText}>{nameBtn}</Text>
+            <TouchableOpacity
+                style={[styles.button, isDisabled && styles.disabledButton]} 
+                onPress={isDisabled ? null : onPressBtn} 
+                disabled={isDisabled} 
+            >
+                <Text style={[styles.buttonText, isDisabled && styles.disabledButtonText]}>
+                    {!isDisabled ? nameBtn : "Estoque vazio"}
+                </Text>
             </TouchableOpacity>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
-        padding: 20,
+        width: "90%",
+        minHeight: 150,
+        backgroundColor: "#fff",
         borderRadius: 10,
-        width: '80%',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-        marginBottom: 20,
-      },
-      cardTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        padding: 10,
         marginBottom: 10,
-      },
-      cardAuthor: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+        elevation: 2,
+    },
+    cardTitle: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginBottom: 10,
+        textAlign: "center"
+    },
+    cardAuthor: {
         fontSize: 16,
         marginBottom: 5,
-        color: '#555',
-      },
-      cardYear: {
+        color: "#555",
+        textAlign: "center"
+    },
+    cardYear: {
         fontSize: 16,
         marginBottom: 5,
-        color: '#555',
-      },
-      cardQuantity: {
+        color: "#555",
+        textAlign: "center"
+    },
+    cardQuantity: {
         fontSize: 16,
         marginBottom: 15,
-        color: '#555',
-      },
-      button: {
-        backgroundColor: '#007BFF',
+        color: "#555",
+        textAlign: "center"
+    },
+    button: {
+        backgroundColor: "#007BFF",
         padding: 10,
         borderRadius: 5,
-        alignItems: 'center',
-      },
-      buttonText: {
-        color: '#fff',
+        alignItems: "center",
+    },
+    disabledButton: {
+        backgroundColor: "orange", 
+    },
+    buttonText: {
+        color: "#fff",
         fontSize: 16,
-      },
-})
+    },
+    disabledButtonText: {
+        color: "#fff", 
+        
+    },
+});
